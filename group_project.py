@@ -78,3 +78,35 @@ def signin_page(Username=None, Password=None):
             print("Database file not found. Please sign up first.")
             break  
 start()
+
+def home_page(Username,Password):
+    print("Welcome to the tuition center \n Here to help you advance in your programming journey")
+    option_display()
+    while True:
+        try:
+            if menu_selection not in [1,2,3,4]: 
+                print("please choose a number between 1 and 4")
+                option_display()
+            elif menu_selection == 1:
+                Loops_Lesson()
+            elif menu_selection == 2:
+                Lists_Lesson()
+            elif menu_selection == 3:
+                Math_op_Lesson()
+            elif menu_selection == 4:
+                print("After a while crocodile \n Hope to see you again")
+                break
+        
+        except ValueError:
+            print("Please choose a number between 1 and 4")
+            option_display()
+
+   
+def option_display():
+    print("Pick a number to learn more about that topic")
+    print("1:Loops \n 2:Lists \n 3:Math operators \n 4:Exit application")
+    menu_selection=int(input("Which option would you like to select? "))
+    return menu_selection
+
+
+
