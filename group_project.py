@@ -92,6 +92,8 @@ def home_page(Username,Password):
             elif menu_selection == 2:
                 Lists_Lesson()
             elif menu_selection == 3:
+                print("So you want to learn more about math operations in python, do you")
+                print("Well we got the one stop shop for you")
                 Math_op_Lesson()
             elif menu_selection == 4:
                 print("After a while crocodile \n Hope to see you again")
@@ -109,4 +111,5 @@ def option_display():
     return menu_selection
 
 
-
+def logging():
+    return
