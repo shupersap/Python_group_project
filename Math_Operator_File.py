@@ -8,7 +8,7 @@ def get_math_input(prompt, correct_answer):#Function created by Haslett
             if user_input == correct_answer: #if the user is right, the function ends
                 return True
             else: #if user is wrong, present prompt that could help them understand the answer
-                print(prompt)
+                print(f"Answer incorrect \n{prompt}")
         except ValueError:
             print("Please enter a valid number.")
 
@@ -41,7 +41,7 @@ def Math_op_Lesson():#Function created by Haslett
             elif math_user_inp == 4:
                 lesson_learned_option = math_operator_lesson("Division", "15 / 5 = 3", "27 / x = 3", "What number would divide 27 by to make 3? ", 9, "/")
             elif math_user_inp == 5:
-                lesson_learned_option = math_operator_lesson("Modulus", "20 % 15 = 5", "12 % x = 2", "What number would divide by 12 to give a remainder of 2? ", 10, "%")
+                lesson_learned_option = math_operator_lesson("Modulus", "20 % 15 = 5", "12 %","x= 2", "What number would divide by 12 to give a remainder of 2? ", 10, "%")
             elif math_user_inp == 6:
                 lesson_learned_option = math_operator_lesson("Exponential", "4 ** 3 = 64", "3 ** x = 27", "What number raised to the power of x will result in 27? ", 3, "**")
             elif math_user_inp == 7:

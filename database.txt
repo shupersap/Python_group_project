@@ -1,6 +1,1 @@
-haslett,haslett18,Loops:6,Lists:5,Math operations:4
-george,password_placeholder,Loops:2,Lists:3,Math operations:0
-bobby, bobby,Loops:0,Lists:0,Math operations:0
-frank, franky23,Loops:2,Lists:2,Math operations:0
-beth, beth23
-homer, simpson,Loops:2,Lists:2,Math operations:0
+

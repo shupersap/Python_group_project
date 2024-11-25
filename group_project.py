@@ -4,7 +4,7 @@ import os
 
 #call functions stored within files in the current working directory's path
 from Math_Operator_File import Math_op_Lesson
-from List_Lesson_File import list_lessons
+from Dtype_File import Dtypes_Lesson
 from Loop_Lesson_File import Loops_Lesson
 
 #initialize start page
@@ -117,7 +117,7 @@ def signin_page(Username=None,Password=None):#Function created by Haslett
 def home_page(home_user):#Function created by Haslett
 
     #Track user clicks on each topic through a dictionary pair
-    topic_clicks = {'Loops': 0, 'Lists': 0, 'Math operations': 0}
+    topic_clicks = {'Loops': 0, 'Dtypes': 0, 'Math operations': 0}
     topic_clicks = load_user_data(home_user, topic_clicks) #check to see if a user has used the application before and collect that info from the database
 
     #welcome users
@@ -134,8 +134,10 @@ def home_page(home_user):#Function created by Haslett
                 topic_clicks['Loops'] += 1 
                 Loops_Lesson()
             elif menu_selection == 2:
-                topic_clicks['Lists'] += 1
-                list_lessons()
+                print("So you want to learn more about math operations in python, do you")
+                print("Well we got the one stop shop for you")
+                topic_clicks['Dtypes'] += 1
+                Dtypes_Lesson()
             elif menu_selection == 3:
                 topic_clicks["Math operations"] += 1
                 print("So you want to learn more about math operations in python, do you")
