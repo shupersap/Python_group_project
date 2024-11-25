@@ -1,5 +1,6 @@
 #import external libraries
 import sys
+import os 
 
 #call functions stored within files in the current working directory's path
 from Math_Operator_File import Math_op_Lesson
@@ -7,10 +8,10 @@ from List_Lesson_File import list_lessons
 from Loop_Lesson_File import Loops_Lesson
 
 #initialize start page
-def start(option=None):
-    print("Welcome to our app")
+def start(option=None):#Function created by Haslett
+    print("Welcome to Python Journey")
     option = input("Signup or Signin: ").lower() #assess whether user wants to sign up or signin
-    #allow activation of sign in and sign up function
+    #allow options to run functions/calls related to selection
     if option == "signin":
         signin_page()
     elif option == "signup":
@@ -23,7 +24,7 @@ def start(option=None):
         start(option=None)  
 
 #signup page function initialized
-def signup_page(Username=None, Password=None):
+def signup_page(Username=None, Password=None):#Function created by Haslett
     while True:
         #Store user's username and password
         Username = input("Enter a username: ")
@@ -37,30 +38,33 @@ def signup_page(Username=None, Password=None):
         try:
             #open up database text file
             with open("database.txt", "r") as db:
+                #initialize empty list
                 stored_users = []
                 #search through each user's details  
                 for user_info in db:
-                    #find the seperated password and user id within the database
+                    #clear whitespace in extracted data
                     if user_info.strip():
+                        #only extract the first two variables seperated by a , 
                         parts = user_info.split(",", 2)
-                        username_stored= parts[0]
+                        username_stored= parts[0] #obtain the username portion
                         username_stored=username_stored.strip()
-                        stored_users.append(username_stored)
+                        stored_users.append(username_stored)#append the usernames to a list
 
+        #if file not found or database is just initialized
         except FileNotFoundError:
             stored_users = []
         #make sure the user doesn't use a username that already exists 
         if Username in stored_users:
             print("Username already exists.")
-        #if username not found, submit user and password into database
+        #if username is not used already, submit user and password into database
         else:
             with open("database.txt", "a") as db:
                 db.write(f"{Username}, {Password}\n")  
             print(f"You have successfully created your account {Username}")
-            home_page(Username,Password)
+            home_page(Username) # have user immediately enter the application based on their username
 
 #signin page function initialized
-def signin_page(Username=None,Password=None):
+def signin_page(Username=None,Password=None):#Function created by Haslett
     while True:
         #have users enter their credentials
         Username = input("Enter your username: ")
@@ -74,16 +78,19 @@ def signin_page(Username=None,Password=None):
         try:
             #open database file
             with open("database.txt", "r") as db:
+                #initialize empty lists
                 stored_user = []
                 stored_pw = []
                 for user_info in db:
-                    #find the seperated password and user id within the database
+                    #find the seperated password and username within the database
                     if user_info.strip():
-                        parts = user_info.split(",", 2)
-                        username_stored, password_stored = parts[0], parts[1]
+                        parts = user_info.split(",", 2)#extract first two variables 
+                        username_stored, password_stored = parts[0], parts[1]#extract username and password values, respectively
                         username_stored=username_stored.strip()
                         password_stored = password_stored.strip()  # Remove extra spaces around password
+                        #append username and passwords
                         stored_user.append(username_stored)
+    
                         stored_pw.append(password_stored)
 
             #initialize dictionary to hold username as key and password as value
@@ -106,8 +113,8 @@ def signin_page(Username=None,Password=None):
             print("Database file not found. Please sign up first.")
             signup_page()  
 
-
-def home_page(home_user):
+#function to store home page detailing
+def home_page(home_user):#Function created by Haslett
 
     #Track user clicks on each topic through a dictionary pair
     topic_clicks = {'Loops': 0, 'Lists': 0, 'Math operations': 0}
@@ -135,6 +142,7 @@ def home_page(home_user):
                 print("Well we got the one stop shop for you")
                 Math_op_Lesson()
             elif menu_selection == 4:
+                #when exiting the application, log the final results of user's session
                 log_user_activity(home_user, topic_clicks)
                 sys.exit("After a while crocodile \nHope to see you again")
         #extra layer of user error prevention
@@ -142,66 +150,87 @@ def home_page(home_user):
             print("Please choose a number between 1 and 4")
             continue
 
-def load_user_data(home_user, topic_clicks):
+#read in user details, specifically in regards to logging data
+def load_user_data(home_user, topic_clicks): #Function created by Haslett
     try:
-        # Open the database file in read mode to get existing users
+        # Open the database file to read in existing users
         with open("database.txt", "r") as db:
             lines = db.readlines()
 
         # Search for the user's line in the database and load their topic click data
         for line in lines:
-            username_stored, password_stored, *topic_data = line.strip().split(",")
+            parts = line.strip().split(",")
+            username_stored = parts[0]
+
             if username_stored == home_user:
-                # Extract topic click counts and update the dictionary
-                for topic in topic_data:
-                    topic_name, count = topic.split(":")
-                    if topic_name in topic_clicks:
-                        topic_clicks[topic_name] = int(count)
+                # If topic data is already present for the current user
+                if len(parts) > 2: 
+                    for topic in parts[2:]:
+                        topic_name, count = topic.split(":") #split based on key:value pairing
+                        if topic_name in topic_clicks:
+                            topic_clicks[topic_name] = int(count) #collect count of user's prior clicks
+                else:
+                    # If no topic data exists for the user, initialize with default
+                    print(f"Warning: {home_user} has no topic data, initializing default.")
                 break
+        else:
+            # If the user isn't found in the database, return the default topic_clicks
+            print(f"New user detected: {home_user}, initializing default data.")
+    
     except FileNotFoundError:
-        print("Database file not found. New user session initiated.")
+        print("Database file not found. Starting new user session.")
     
     return topic_clicks
 
-# Function to log the user's activity to the database.txt file
-def log_user_activity(home_user, topic_clicks):
+# Function to log the user's activity to the database file
+def log_user_activity(home_user, topic_clicks):#Function created by Haslett
+    user_found = False
     try:
-        # Open the database file in read mode to get existing users
-        with open("database.txt", "r") as db:
-            lines = db.readlines()
+        if os.path.exists("database.txt"):
+            #read in database data
+            with open("database.txt", "r+") as db:
+                lines = db.readlines()
 
-        # Check if the user's data already exists
-        user_found = False
-        for i, line in enumerate(lines):
-            username_stored, password_stored, *topic_data = line.strip().split(",")
-            if username_stored == home_user:
-                user_found = True
-                # Update the user's topic click data in the database
-                new_data = f"{home_user},{password_stored}," + ",".join([f"{key}:{value}" for key, value in topic_clicks.items()])
-                lines[i] = new_data + "\n"
-                break
+                # Check if the user already exists in the database
+                for i, line in enumerate(lines):
+                    parts = line.strip().split(",")
+                    username_stored = parts[0]
 
-        # If the user wasn't found, add a new line with their activity
-        if not user_found:
-            new_data = f"{home_user},<password_placeholder>," + ",".join([f"{key}:{value}" for key, value in topic_clicks.items()])
-            lines.append(new_data + "\n")
+                    #if the current user is found in the db
+                    if username_stored == home_user:
+                        user_found = True
+                        # Retain the original password and update topic data
+                        password_stored = parts[1]  # Store the original password
+                        updated_data = f"{home_user},{password_stored}," + ",".join([f"{key}:{value}" for key, value in topic_clicks.items()]) # based on each topic click update the data
+                        lines[i] = updated_data + "\n"
+                        break
 
-        # Write the updated data back to the file
-        with open("database.txt", "w") as db:
-            db.writelines(lines)
+                # If the user wasn't found, print a message and exit the function
+                if not user_found:
+                    print(f"Error: User '{home_user}' not found in the database.")
+                    return  # Exit early
+
+                # Rewind and write back the modified file
+                db.seek(0)
+                db.writelines(lines)
+
+        else:
+            # Handle case where the database file doesn't exist
+            print("Error: Database file not found.")
+            return  # Exit early
 
     except FileNotFoundError:
-        # If the file doesn't exist, create it and add the user's data
-        with open("database.txt", "w") as db:
-            new_data = f"{home_user},<password_placeholder>," + ",".join([f"{key}:{value}" for key, value in topic_clicks.items()])
-            db.write(new_data + "\n")
-
+        # Handle the case where the file doesn't exist or other IO errors
+        print("Error: Database file not found.")
+        return  # Exit early
 
 #initialized function to display menu selections
-def option_display():
+def option_display():#Function created by Haslett
     print("Pick a number to learn more about that topic:")
     print(" 1:Loops \n 2:Lists \n 3:Math operators \n 4:Exit application\n")
     pick= int(input("Which option would you like to select? "))
     return pick
 
-start()
+
+
+start()#start program when file is run
