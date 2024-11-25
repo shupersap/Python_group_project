@@ -40,10 +40,11 @@ def signup_page(Username=None, Password=None):
                 stored_users = []
                 #search through each user's details  
                 for user_info in db:
-                    if user_info.strip():  
-                        #split the stored data for each user to obtain the username
-                        username_stored, password_stored = user_info.split(",")
-                        password_stored = password_stored.strip() 
+                    #find the seperated password and user id within the database
+                    if user_info.strip():
+                        parts = user_info.split(",", 2)
+                        username_stored= parts[0]
+                        username_stored=username_stored.strip()
                         stored_users.append(username_stored)
 
         except FileNotFoundError:
@@ -77,9 +78,11 @@ def signin_page(Username=None,Password=None):
                 stored_pw = []
                 for user_info in db:
                     #find the seperated password and user id within the database
-                    if user_info.strip():  
-                        username_stored, password_stored = user_info.split(",")
-                        password_stored = password_stored.strip() 
+                    if user_info.strip():
+                        parts = user_info.split(",", 2)
+                        username_stored, password_stored = parts[0], parts[1]
+                        username_stored=username_stored.strip()
+                        password_stored = password_stored.strip()  # Remove extra spaces around password
                         stored_user.append(username_stored)
                         stored_pw.append(password_stored)
 
@@ -91,8 +94,7 @@ def signin_page(Username=None,Password=None):
                 stored_password = user_dict[Username]
                 if Password == stored_password:
                     print("Login success!")
-                    print(f"Hi, {Username}")
-                    home_page(Username,Password)
+                    home_page(Username)
                     break
                 else:
                     print("Wrong password.")
@@ -105,7 +107,7 @@ def signin_page(Username=None,Password=None):
             signup_page()  
 
 
-def home_page(home_user,home_pw):
+def home_page(home_user):
 
     #Track user clicks on each topic through a dictionary pair
     topic_clicks = {'Loops': 0, 'Lists': 0, 'Math operations': 0}
@@ -126,16 +128,15 @@ def home_page(home_user,home_pw):
                 Loops_Lesson()
             elif menu_selection == 2:
                 topic_clicks['Lists'] += 1
-                Lists_Lesson()
+                list_lessons()
             elif menu_selection == 3:
                 topic_clicks["Math operations"] += 1
                 print("So you want to learn more about math operations in python, do you")
                 print("Well we got the one stop shop for you")
                 Math_op_Lesson()
             elif menu_selection == 4:
-                print("After a while crocodile \nHope to see you again")
                 log_user_activity(home_user, topic_clicks)
-                break
+                sys.exit("After a while crocodile \nHope to see you again")
         #extra layer of user error prevention
         except ValueError:
             print("Please choose a number between 1 and 4")
@@ -198,13 +199,9 @@ def log_user_activity(home_user, topic_clicks):
 
 #initialized function to display menu selections
 def option_display():
-    print("Pick a number to learn more about that topic")
-    print(" 1:Loops \n 2:Lists \n 3:Math operators \n 4:Exit application")
+    print("Pick a number to learn more about that topic:")
+    print(" 1:Loops \n 2:Lists \n 3:Math operators \n 4:Exit application\n")
     pick= int(input("Which option would you like to select? "))
     return pick
-
-
-def logging():
-    return
 
 start()

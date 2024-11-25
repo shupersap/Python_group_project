@@ -1,4 +1,63 @@
+import sys
+
+def get_math_input(prompt, correct_answer):
+    while True:
+        try:
+            user_input = int(input("Answer: "))
+            if user_input == correct_answer:
+                return True
+            else:
+                print(prompt)
+        except ValueError:
+            print("Please enter a valid number.")
+
+def math_operator_lesson(operator, example,question, prompt, correct_answer,operator_symbol):
+    print(f"\n{operator} in Python utilizes the corresponding operator: {operator_symbol}")
+    print(f"Example: {example}")
+    print(f"\nTry it yourself, with this equation:\n{question}")
+    if get_math_input(prompt, correct_answer):
+        print(f"\nWell done, you have successfully understood how the {operator} operator is used!!")
+        lesson_learned_option = int(input("\nPick from these options:\n 1: Learn more about the math operators\n 2: Back to the home page \n 3: Exit the application\n"))
+        return lesson_learned_option
+
 def Math_op_Lesson():
+    while True:
+        lesson_learned_option = 0
+        try:
+            math_user_inp = int(input("Pick from these options:\n 1: Addition \n 2: Subtraction \n 3: Multiplication \n 4: Division \n 5: Modulus\n 6: Exponential\n 7: Home Page \noption: "))
+            
+            if math_user_inp == 1:
+                lesson_learned_option = math_operator_lesson("Addition", "5 + 22 = 27", "8 + x = 15", "What number would add to 8 to make 15? ", 7, "+")
+            elif math_user_inp == 2:
+                lesson_learned_option = math_operator_lesson("Subtraction", "13 - 5 = 8", "21 - x = 9", "What number would subtract from 21 to make 9? ", 12, "-")
+            elif math_user_inp == 3:
+                lesson_learned_option = math_operator_lesson("Multiplication", "6 * 4 = 24", "x * 7 = 21", "What number would multiply by 7 to be 21? ", 3, "*")
+            elif math_user_inp == 4:
+                lesson_learned_option = math_operator_lesson("Division", "15 / 5 = 3", "27 / x = 3", "What number would divide 27 by to make 3? ", 9, "/")
+            elif math_user_inp == 5:
+                lesson_learned_option = math_operator_lesson("Modulus", "20 % 15 = 5", "12 % x = 2", "What number would divide by 12 to give a remainder of 2? ", 10, "%")
+            elif math_user_inp == 6:
+                lesson_learned_option = math_operator_lesson("Exponential", "4 ** 3 = 64", "3 ** x = 27", "What number raised to the power of x will result in 27? ", 3, "**")
+            elif math_user_inp == 7:
+                break # Exit the loop if the user selects 'Home Page'
+            else:
+                print("Please input a number between 1 and 7")
+
+        except ValueError:
+            print("Invalid input! Please enter a number between 1 and 7.")
+            continue
+
+        if lesson_learned_option == 1:
+            continue
+        elif lesson_learned_option == 2:
+            break
+        elif lesson_learned_option == 3:
+            sys.exit()
+
+
+
+
+"""def Math_op_Lesson():
     math_user_inp=int(input("Pick from these options:\n 1:addition \n 2:subtraction \n 3:multiplication \n 4:division \n 5:modulus\n 6:exponential\n option: "))
     if math_user_inp == 1:
         print("\nAddition in python utilizes the + operator to  add")
@@ -120,55 +179,8 @@ def Math_op_Lesson():
                     home_page()
                 elif lesson_learned_option == 3:
                     sys.exit()
+"""
 
 
 
 
-#Chatgpt version of improved code, implement later
-"""def get_math_input(prompt, correct_answer):
-    while True:
-        try:
-            user_input = int(input(prompt))
-            if user_input == correct_answer:
-                return True
-            else:
-                print("Try again, make sure your answer is correct.")
-        except ValueError:
-            print("Please enter a valid number.")
-
-def math_operator_lesson(operator, example, prompt, correct_answer):
-    print(f"\n{operator} in Python utilizes the corresponding operator.")
-    print(f"Example: {example}")
-    print("\nTry it yourself.")
-    if get_math_input(prompt, correct_answer):
-        print(f"\nWell done, you have successfully understood how the {operator} operator is used!!")
-        lesson_learned_option = int(input("\nPick from these options:\n 1: Learn more about the math operators\n 2: Go to the home page\n 3: Exit the application\n"))
-        return lesson_learned_option
-
-def Math_op_Lesson():
-    math_user_inp = int(input("Pick from these options:\n 1: Addition \n 2: Subtraction \n 3: Multiplication \n 4: Division \n 5: Modulus\n 6: Exponential\n option: "))
-    
-    if math_user_inp == 1:
-        lesson_learned_option = math_operator_lesson("Addition", "5 + 22 = 27", "What number would add to 8 to make 15? ", 7)
-    
-    elif math_user_inp == 2:
-        lesson_learned_option = math_operator_lesson("Subtraction", "13 - 5 = 8", "What number would subtract from 21 to make 9? ", 12)
-    
-    elif math_user_inp == 3:
-        lesson_learned_option = math_operator_lesson("Multiplication", "6 * 4 = 24", "What number would multiply by 7 to be 21? ", 3)
-    
-    elif math_user_inp == 4:
-        lesson_learned_option = math_operator_lesson("Division", "15 / 5 = 3", "What number would divide 27 by to make 3? ", 9)
-    
-    elif math_user_inp == 5:
-        lesson_learned_option = math_operator_lesson("Modulus", "15 % 20 = 15", "What number would divide 12 to give a remainder of 2? ", 10)
-    
-    elif math_user_inp == 6:
-        lesson_learned_option = math_operator_lesson("Exponential", "4 ** 3 = 64", "What number raised to the power of x will result in 27? ", 3)
-
-    if lesson_learned_option == 1:
-        Math_op_Lesson()
-    elif lesson_learned_option == 2:
-        home_page()
-    elif lesson_learned_option == 3:
-        sys.exit()"""
