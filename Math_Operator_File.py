@@ -21,6 +21,7 @@ def math_operator_lesson(operator, example,question, prompt, correct_answer,oper
     if get_math_input(prompt, correct_answer):
         print(f"\nWell done, you have successfully understood how the {operator} operator is used!!")#congratulate user for understanding the operator
         lesson_learned_option = int(input("\nPick from these options:\n 1: Learn more about the math operators\n 2: Back to the home page\n"))#ask the user if they want to learn more or go back to the home page
+        print("-" * 80)
         return lesson_learned_option
 
 #Lesson start function so users can pick what they want to learn about
@@ -30,7 +31,7 @@ def Math_op_Lesson():#Function created by Haslett
         try:
             #have users pick their option
             math_user_inp = int(input("Pick from these options:\n 1: Addition \n 2: Subtraction \n 3: Multiplication \n 4: Division \n 5: Modulus\n 6: Exponential\n 7: Home Page \noption: "))
-            
+            print("-" * 80)
             #within each math_operator_lesson, the parameters are shifted based on what operations are being used and how examples and answers should be structured
             if math_user_inp == 1:
                 lesson_learned_option = math_operator_lesson("Addition", "5 + 22 = 27", "8 + x = 15", "What number would add to 8 to make 15? ", 7, "+")
@@ -41,7 +42,7 @@ def Math_op_Lesson():#Function created by Haslett
             elif math_user_inp == 4:
                 lesson_learned_option = math_operator_lesson("Division", "15 / 5 = 3", "27 / x = 3", "What number would divide 27 by to make 3? ", 9, "/")
             elif math_user_inp == 5:
-                lesson_learned_option = math_operator_lesson("Modulus", "20 % 15 = 5", "12 %","x= 2", "What number would divide by 12 to give a remainder of 2? ", 10, "%")
+                lesson_learned_option = math_operator_lesson("Modulus", "20 % 15 = 5", "12 % x = 2", "What number would divide by 12 to give a remainder of 2? ", 10, "%")
             elif math_user_inp == 6:
                 lesson_learned_option = math_operator_lesson("Exponential", "4 ** 3 = 64", "3 ** x = 27", "What number raised to the power of x will result in 27? ", 3, "**")
             elif math_user_inp == 7:

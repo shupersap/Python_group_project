@@ -1,1 +1,4 @@
 
+haslett, haslett18,Loops:1,Dtypes:0,Math operations:1
+dylan, cookie13
+carlos, cookie15

@@ -4,13 +4,19 @@ import os
 
 #call functions stored within files in the current working directory's path
 from Math_Operator_File import Math_op_Lesson
-from Dtype_File import Dtypes_Lesson
-from Loop_Lesson_File import Loops_Lesson
+from Dtype_File import dtype_Lesson
+from Loop_Lesson_File import Loop_Lesson
+
 
 #initialize start page
 def start(option=None):#Function created by Haslett
+    #welcom user
+    print("-" * 80)
     print("Welcome to Python Journey")
-    option = input("Signup or Signin: ").lower() #assess whether user wants to sign up or signin
+    print("The app here to help you excel in your coding journey \n")
+    print("Made by DHR Studios")
+    print("-" * 80)
+    option = str(input("Signup or Signin: ")).lower() #assess whether user wants to sign up or signin
     #allow options to run functions/calls related to selection
     if option == "signin":
         signin_page()
@@ -20,7 +26,7 @@ def start(option=None):#Function created by Haslett
         sys.exit("Hope to see you again")
     #if either options are not selected, restart the start selection
     else:
-        print("Make sure you type either 'Signin' or 'Signup', or 'quit' if you want to exit the application")
+        print("Make sure you type either 'signin' or 'signup', or 'quit' if you want to exit the application")
         start(option=None)  
 
 #signup page function initialized
@@ -29,12 +35,10 @@ def signup_page(Username=None, Password=None):#Function created by Haslett
         #Store user's username and password
         Username = input("Enter a username: ")
         Password = input("Create a password: ")
-        
         #if field is left blank restart the process
         if not Username or not Password:
             print("Both username and password are required. Please try again.")
             continue
-
         try:
             #open up database text file
             with open("database.txt", "r") as db:
@@ -44,7 +48,7 @@ def signup_page(Username=None, Password=None):#Function created by Haslett
                 for user_info in db:
                     #clear whitespace in extracted data
                     if user_info.strip():
-                        #only extract the first two variables seperated by a , 
+                        #only extract the first two variables seperated by a comma 
                         parts = user_info.split(",", 2)
                         username_stored= parts[0] #obtain the username portion
                         username_stored=username_stored.strip()
@@ -56,18 +60,20 @@ def signup_page(Username=None, Password=None):#Function created by Haslett
         #make sure the user doesn't use a username that already exists 
         if Username in stored_users:
             print("Username already exists.")
+            start()
         #if username is not used already, submit user and password into database
         else:
             with open("database.txt", "a") as db:
                 db.write(f"{Username}, {Password}\n")  
             print(f"You have successfully created your account {Username}")
+            print("-" * 80)
             home_page(Username) # have user immediately enter the application based on their username
 
 #signin page function initialized
 def signin_page(Username=None,Password=None):#Function created by Haslett
     while True:
         #have users enter their credentials
-        Username = input("Enter your username: ")
+        Username = input("\nEnter your username: ")
         Password = input("Enter your Password: ")
         
         #if the fields are left blank, they must redo the signin process
@@ -101,12 +107,15 @@ def signin_page(Username=None,Password=None):#Function created by Haslett
                 stored_password = user_dict[Username]
                 if Password == stored_password:
                     print("Login success!")
+                    print("-" * 80)
                     home_page(Username)
                     break
                 else:
                     print("Wrong password.")
+                    start()  
             else:
                 print("Username doesn't exist.")
+                start()
 
         #If there is no database information, a sign up must be made first
         except FileNotFoundError:
@@ -131,22 +140,23 @@ def home_page(home_user):#Function created by Haslett
                 continue
             #direct each option to an imported function from outside files
             elif menu_selection == 1:
+                print("-" * 80)
                 topic_clicks['Loops'] += 1 
-                Loops_Lesson()
+                Loop_Lesson()
             elif menu_selection == 2:
-                print("So you want to learn more about math operations in python, do you")
-                print("Well we got the one stop shop for you")
+                print("-" * 80)
                 topic_clicks['Dtypes'] += 1
-                Dtypes_Lesson()
+                dtype_Lesson()
             elif menu_selection == 3:
                 topic_clicks["Math operations"] += 1
+                print("-" * 80)
                 print("So you want to learn more about math operations in python, do you")
                 print("Well we got the one stop shop for you")
                 Math_op_Lesson()
             elif menu_selection == 4:
                 #when exiting the application, log the final results of user's session
                 log_user_activity(home_user, topic_clicks)
-                sys.exit("After a while crocodile \nHope to see you again")
+                sys.exit("\nAfter a while crocodile \nHope to see you again")
         #extra layer of user error prevention
         except ValueError:
             print("Please choose a number between 1 and 4")
@@ -228,8 +238,8 @@ def log_user_activity(home_user, topic_clicks):#Function created by Haslett
 
 #initialized function to display menu selections
 def option_display():#Function created by Haslett
-    print("Pick a number to learn more about that topic:")
-    print(" 1:Loops \n 2:Lists \n 3:Math operators \n 4:Exit application\n")
+    print("Pick a number to learn more about that topic or quit the application:")
+    print(" 1:Loops \n 2:Data Types \n 3:Math operators \n 4:Exit application\n")
     pick= int(input("Which option would you like to select? "))
     return pick
 
